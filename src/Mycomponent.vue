@@ -1,20 +1,25 @@
 <template>
   <div class="container">
-    <!-- Parte anterior del tutorial -->
+    <!-- Renderizado condicional con v-if y clase dinámica con v-bind (:class) -->
     <h1 v-if="isVisible" :class="{ highlighted: isHighlighted }">
       {{ message }}
     </h1>
 
     <div class="actions">
+      <!-- Manejo de eventos con v-on (@click) -->
       <button @click="toggleVisibility">Mostrar / Ocultar</button>
       <button @click="toggleHighlight">Cambiar Color</button>
     </div>
 
+    <!-- Enlace bidireccional con v-model -->
     <input v-model="message" type="text" placeholder="Escribe algo..." />
+
+    <!-- Propiedad computada (computed) -->
+    <p>Mensaje en mayúsculas: <strong>{{ mensajeEnMayusculas }}</strong></p>
 
     <hr />
 
-    <!-- Renderizado de listas con v-for -->
+    <!-- Renderizado de listas con v-for y directiva :key -->
     <h3>Lista de elementos:</h3>
     <ul>
       <li v-for="item in itemsList" :key="item.id">
@@ -24,7 +29,7 @@
 
     <hr />
 
-    <!-- SECCIÓN DE ESTADO GLOBAL (PINIA / STORE) -->
+    <!-- Sección de estado global (Pinia / Store) -->
     <div class="store-box">
       <h3>{{ counterStore.appName }}</h3>
       <p>Valor global: <strong>{{ counterStore.count }}</strong></p>
@@ -54,10 +59,14 @@ export default {
       ]
     }
   },
-  // Usamos setup para instanciar la tienda y hacerla disponible en el componente
   setup() {
     const counterStore = useCounterStore()
     return { counterStore }
+  },
+  computed: {
+    mensajeEnMayusculas() {
+      return this.message.toUpperCase()
+    }
   },
   methods: {
     toggleVisibility() {
